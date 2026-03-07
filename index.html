@@ -1,28 +1,19 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nian - 一年的记忆</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="container">
-        <div class="year-view" id="yearView">
-            <div class="dots-container" id="dotsContainer"></div>
-        </div>
-        
-        <div class="corner-info">
-            <div class="year-info" id="yearInfo"></div>
-            <div class="stats-info" id="statsInfo"></div>
-        </div>
+---
+layout: default
+title: 一年的记忆
+---
+
+<div class="container">
+    <div class="year-view" id="yearView">
+        <div class="dots-container" id="dotsContainer"></div>
     </div>
     
-    <div class="card-modal" id="cardModal">
-        <div class="card-content" id="cardContent"></div>
+    <div class="corner-info">
+        <div class="year-info" id="yearInfo"></div>
+        <div class="stats-info" id="statsInfo"></div>
     </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
-    <script src="app.js"></script>
-</body>
-</html>
+</div>
+
+<div class="card-modal" id="cardModal">
+    <div class="card-content" id="cardContent"></div>
+</div>

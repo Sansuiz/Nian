@@ -15,23 +15,23 @@ class NianApp {
 
     async loadData() {
         try {
-            const annivResponse = await fetch('纪念日.yml');
+            const annivResponse = await fetch('/_data/anniversaries.yml');
             if (annivResponse.ok) {
                 const annivText = await annivResponse.text();
                 this.data.anniversaries = jsyaml.load(annivText) || [];
             }
         } catch (e) {
-            console.log('纪念日.yml 未找到，使用默认数据');
+            console.log('anniversaries.yml 未找到，使用默认数据');
         }
 
         try {
-            const notesResponse = await fetch('笔记.yml');
+            const notesResponse = await fetch('/_data/notes.yml');
             if (notesResponse.ok) {
                 const notesText = await notesResponse.text();
                 this.data.notes = jsyaml.load(notesText) || [];
             }
         } catch (e) {
-            console.log('笔记.yml 未找到，使用默认数据');
+            console.log('notes.yml 未找到，使用默认数据');
         }
     }
 
