@@ -30,8 +30,8 @@ body {
 
 .dots-container {
     display: grid;
-    gap: 12px;
-    padding: 40px;
+    gap: 16px;
+    padding: 60px;
     transition: all 0.3s ease;
 }
 

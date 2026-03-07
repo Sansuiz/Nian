@@ -98,7 +98,8 @@ class NianApp {
         container.className = 'dots-container';
         
         const daysInYear = this.getDaysInYear(this.currentYear);
-        const cols = Math.ceil(Math.sqrt(daysInYear));
+        const aspectRatio = 16 / 9;
+        const cols = Math.ceil(Math.sqrt(daysInYear * aspectRatio));
         container.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
         
         for (let day = 1; day <= daysInYear; day++) {
