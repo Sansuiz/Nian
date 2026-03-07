@@ -1,0 +1,293 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    overflow: hidden;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.year-view {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dots-container {
+    display: grid;
+    gap: 12px;
+    padding: 40px;
+    transition: all 0.3s ease;
+}
+
+.dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.dot:hover {
+    transform: scale(1.3);
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.dot.has-content {
+    animation: breathe 3s ease-in-out infinite;
+}
+
+@keyframes breathe {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.8; }
+}
+
+.dot.has-content:hover {
+    animation: none;
+    transform: scale(1.5);
+}
+
+.dot .tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    z-index: 100;
+}
+
+.dot .tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: rgba(0, 0, 0, 0.8);
+}
+
+.dot:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+    margin-bottom: 8px;
+}
+
+.dot.style-love {
+    background: linear-gradient(135deg, #ff6b9d, #c44569);
+    box-shadow: 0 0 20px rgba(255, 107, 157, 0.6);
+}
+
+.dot.style-happy {
+    background: linear-gradient(135deg, #f6d365, #fda085);
+    box-shadow: 0 0 20px rgba(246, 211, 101, 0.6);
+}
+
+.dot.style-sad {
+    background: linear-gradient(135deg, #a8edea, #fed6e3);
+    box-shadow: 0 0 20px rgba(168, 237, 234, 0.6);
+}
+
+.dot.style-excited {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.6);
+}
+
+.dot.style-peaceful {
+    background: linear-gradient(135deg, #84fab0, #8fd3f4);
+    box-shadow: 0 0 20px rgba(132, 250, 176, 0.6);
+}
+
+.corner-info {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.year-info {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    font-size: 48px;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.9);
+    letter-spacing: 4px;
+}
+
+.stats-info {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    text-align: right;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.stats-info .stat-item {
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.stats-info .stat-value {
+    font-size: 24px;
+    font-weight: 600;
+    display: block;
+}
+
+.card-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.card-modal.active {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.card-content {
+    background: white;
+    border-radius: 24px;
+    padding: 40px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.card-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: #f0f0f0;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.card-close:hover {
+    background: #e0e0e0;
+}
+
+.card-date {
+    font-size: 14px;
+    color: #999;
+    margin-bottom: 10px;
+}
+
+.card-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.card-type {
+    display: inline-block;
+    padding: 4px 12px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border-radius: 20px;
+    font-size: 12px;
+    margin-bottom: 20px;
+}
+
+.card-content-text {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #555;
+    white-space: pre-wrap;
+}
+
+.card-mood {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.card-mood-label {
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 8px;
+}
+
+.card-mood-value {
+    font-size: 16px;
+    color: #667eea;
+    font-weight: 600;
+}
+
+.month-grid {
+    gap: 8px;
+}
+
+.month-grid .dot {
+    width: 24px;
+    height: 24px;
+}
+
+.month-label {
+    grid-column: 1 / -1;
+    text-align: center;
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 20px;
+    padding-top: 20px;
+}
