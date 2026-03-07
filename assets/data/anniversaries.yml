@@ -1,0 +1,31 @@
+- date: "2026-01-01"
+  title: "新年第一天"
+  content: |
+    新的一年开始了！
+    愿这一年充满爱与希望。
+  mood: "happy"
+  style: "happy"
+
+- date: "2026-02-14"
+  title: "情人节"
+  content: |
+    和心爱的人一起度过的美好时光。
+    感谢有你在身边。
+  mood: "love"
+  style: "love"
+
+- date: "2026-10-01"
+  title: "国庆节"
+  content: |
+    祖国生日快乐！
+    愿国家繁荣昌盛。
+  mood: "excited"
+  style: "excited"
+
+- date: "2026-12-25"
+  title: "圣诞节"
+  content: |
+    圣诞快乐！
+    愿每个人都能感受到温暖和幸福。
+  mood: "peaceful"
+  style: "peaceful"

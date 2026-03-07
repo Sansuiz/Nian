@@ -15,7 +15,7 @@ class NianApp {
 
     async loadData() {
         try {
-            const annivResponse = await fetch('/_data/anniversaries.yml');
+            const annivResponse = await fetch('/assets/data/anniversaries.yml');
             if (annivResponse.ok) {
                 const annivText = await annivResponse.text();
                 this.data.anniversaries = jsyaml.load(annivText) || [];
@@ -25,7 +25,7 @@ class NianApp {
         }
 
         try {
-            const notesResponse = await fetch('/_data/notes.yml');
+            const notesResponse = await fetch('/assets/data/notes.yml');
             if (notesResponse.ok) {
                 const notesText = await notesResponse.text();
                 this.data.notes = jsyaml.load(notesText) || [];

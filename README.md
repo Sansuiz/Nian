@@ -8,9 +8,7 @@
 Nian/
 ├── _config.yml              # Jekyll 配置文件
 ├── index.html               # 首页
-├── _data/                   # 数据文件目录
-│   ├── anniversaries.yml    # 纪念日数据
-│   └── notes.yml            # 笔记数据
+├── _data/                   # Jekyll 数据目录（预留）
 ├── _layouts/                # 布局模板目录
 │   └── default.html         # 默认布局
 ├── _posts/                  # 博客文章目录（预留）
@@ -19,6 +17,9 @@ Nian/
 │   │   └── styles.css       # 主样式
 │   ├── js/                  # JavaScript 文件
 │   │   └── app.js           # 主脚本
+│   ├── data/                # 数据文件目录（可通过 HTTP 访问）
+│   │   ├── anniversaries.yml # 纪念日数据
+│   │   └── notes.yml        # 笔记数据
 │   └── images/              # 图片目录（预留）
 └── README.md                # 项目说明
 ```
@@ -34,7 +35,9 @@ Nian/
 
 ## 数据格式
 
-### 纪念日 (anniversaries.yml)
+数据文件存放在 `assets/data/` 目录下（注意：不是 `_data/` 目录，因为 `_data/` 目录下的文件在 GitHub Pages 上不能通过 HTTP 直接访问）。
+
+### 纪念日 (assets/data/anniversaries.yml)
 
 ```yaml
 - date: "2026-02-14"
@@ -46,7 +49,7 @@ Nian/
   style: "love"
 ```
 
-### 笔记 (notes.yml)
+### 笔记 (assets/data/notes.yml)
 
 ```yaml
 - date: "2026-03-07"
