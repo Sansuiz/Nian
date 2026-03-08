@@ -1,0 +1,38 @@
+- id: dc-001
+  title: Hot Wheels - 法拉利 F1赛车
+  category: diecast
+  description: 经典的法拉利 F1 赛车模型，细节满满
+  image: 🏎️
+  imageUrl: 
+  date: 2025-09-10
+  rarity: legendary
+  scale: 1:64
+  brand: Hot Wheels
+  model: Ferrari F1
+  notes: 限量版红色涂装，收藏价值极高
+
+- id: dc-002
+  title: Tomica - 兰博基尼
+  category: diecast
+  description: Tomica 出品的兰博基尼模型
+  image: 🚗
+  imageUrl: 
+  date: 2025-08-25
+  rarity: epic
+  scale: 1:64
+  brand: Tomica
+  model: Lamborghini Aventador
+  notes: 黄色款，非常精致
+
+- id: dc-003
+  title: Mini GT - 保时捷 911
+  category: diecast
+  description: Mini GT 保时捷 911 GT3 RS
+  image: 🏁
+  imageUrl: 
+  date: 2025-07-15
+  rarity: rare
+  scale: 1:64
+  brand: Mini GT
+  model: Porsche 911 GT3 RS
+  notes: 赛道版，尾翼很帅

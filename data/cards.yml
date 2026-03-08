@@ -1,0 +1,35 @@
+- id: cd-001
+  title: 宝可梦卡牌 - 皮卡丘
+  category: card
+  description: 超人气皮卡丘全息卡牌
+  image: ⚡
+  imageUrl: 
+  date: 2025-12-01
+  rarity: legendary
+  set: 宝可梦 TCG
+  type: 全息
+  notes: 初代皮卡丘，品相完美
+
+- id: cd-002
+  title: 游戏王 - 青眼白龙
+  category: card
+  description: 经典青眼白龙卡牌
+  image: 🐉
+  imageUrl: 
+  date: 2025-10-20
+  rarity: epic
+  set: 游戏王 OCG
+  type: 金字版
+  notes: 攻击力3000的经典怪兽
+
+- id: cd-003
+  title: NBA 球星卡 - 詹姆斯
+  category: card
+  description: LeBron James 签名卡
+  image: 🏀
+  imageUrl: 
+  date: 2025-09-05
+  rarity: rare
+  set: Panini
+  type: 签字卡
+  notes: 小皇帝的卡

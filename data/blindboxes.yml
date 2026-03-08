@@ -1,0 +1,35 @@
+- id: bb-001
+  title: 泡泡玛特 - Dimoo 太空旅行系列
+  category: blindbox
+  description: Dimoo 带你探索宇宙，开启一段奇妙的太空冒险
+  image: 🧑‍🚀
+  imageUrl: 
+  date: 2025-12-15
+  rarity: epic
+  series: Dimoo 太空旅行
+  brand: 泡泡玛特
+  notes: 这款是隐藏款宇航员Dimoo，非常稀有
+
+- id: bb-002
+  title: 泡泡玛特 - Molly 一天系列
+  category: blindbox
+  description: Molly 的一天，每一刻都精彩
+  image: 👧
+  imageUrl: 
+  date: 2025-11-20
+  rarity: rare
+  series: Molly 的一天
+  brand: 泡泡玛特
+  notes: 早上的Molly真的太可爱了
+
+- id: bb-003
+  title: 寻找独角兽 - RiCO 野餐系列
+  category: blindbox
+  description: 和 RiCO 一起去野餐吧
+  image: 🧺
+  imageUrl: 
+  date: 2025-10-08
+  rarity: common
+  series: RiCO 野餐
+  brand: 寻找独角兽
+  notes: 野餐篮里的小面包很香
