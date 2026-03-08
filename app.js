@@ -1,5 +1,7 @@
 let collection = [];
+let filteredCollection = [];
 let currentCategory = 'all';
+let currentIndex = 0;
 
 const rarityLabels = {
     common: '普通',
@@ -34,33 +36,70 @@ async function loadCollection() {
     ]);
     
     collection = [...blindboxes, ...diecast, ...cards];
-    renderCollection();
+    updateFilter();
 }
 
-function renderCollection() {
-    const grid = document.getElementById('collection-grid');
-    const filtered = currentCategory === 'all' 
+function updateFilter() {
+    filteredCollection = currentCategory === 'all' 
         ? collection 
         : collection.filter(item => item.category === currentCategory);
     
-    if (filtered.length === 0) {
-        grid.innerHTML = `
-            <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
-                <div style="font-size: 4rem; margin-bottom: 20px;">🎁</div>
-                <p style="color: var(--text-muted); font-size: 1.2rem;">暂无此类藏品</p>
+    currentIndex = 0;
+    renderCarousel();
+    renderIndicators();
+    updateCount();
+}
+
+function renderCarousel() {
+    const track = document.getElementById('carousel-track');
+    
+    if (filteredCollection.length === 0) {
+        track.innerHTML = `
+            <div style="text-align: center; padding: 60px 20px;">
+                <div style="font-size: 5rem; margin-bottom: 20px;">🎁</div>
+                <p style="color: var(--text-muted); font-size: 1.3rem;">暂无此类藏品</p>
             </div>
         `;
         return;
     }
     
-    grid.innerHTML = filtered.map((item, index) => createCard(item, index)).join('');
+    const cards = [];
+    for (let i = -2; i <= 2; i++) {
+        const index = (currentIndex + i + filteredCollection.length) % filteredCollection.length;
+        const item = filteredCollection[index];
+        const positionClass = getPositionClass(i);
+        
+        cards.push(createCard(item, positionClass, index));
+    }
     
-    document.querySelectorAll('.item-card').forEach((card, index) => {
-        card.addEventListener('click', () => openModal(filtered[index]));
+    track.innerHTML = cards.join('');
+    
+    document.querySelectorAll('.carousel-card').forEach(card => {
+        const index = parseInt(card.dataset.index);
+        card.addEventListener('click', (e) => {
+            if (card.classList.contains('card-0')) {
+                openModal(filteredCollection[index]);
+            } else {
+                const diff = index - currentIndex;
+                if (diff > 0) {
+                    goTo(Math.min(currentIndex + diff, filteredCollection.length - 1));
+                } else {
+                    goTo(Math.max(currentIndex + diff, 0));
+                }
+            }
+        });
     });
 }
 
-function createCard(item, index) {
+function getPositionClass(offset) {
+    const absOffset = Math.abs(offset);
+    if (absOffset === 0) return 'card-0';
+    if (absOffset === 1) return offset > 0 ? 'card-1' : 'card-2';
+    if (absOffset === 2) return offset > 0 ? 'card-3' : 'card-4';
+    return 'hidden';
+}
+
+function createCard(item, positionClass, index) {
     const categoryClass = `category-${item.category}`;
     const rarityClass = `rarity-${item.rarity}`;
     
@@ -69,7 +108,7 @@ function createCard(item, index) {
         : `<div class="item-image">${item.image}</div>`;
     
     return `
-        <div class="item-card" style="animation: fadeIn 0.5s ease ${index * 0.1}s forwards; opacity: 0;">
+        <div class="carousel-card ${positionClass}" data-index="${index}">
             ${imageContent}
             <div class="item-content">
                 <span class="item-category ${categoryClass}">${categoryLabels[item.category]}</span>
@@ -82,6 +121,54 @@ function createCard(item, index) {
             </div>
         </div>
     `;
+}
+
+function renderIndicators() {
+    const container = document.getElementById('carousel-indicators');
+    
+    if (filteredCollection.length <= 1) {
+        container.innerHTML = '';
+        return;
+    }
+    
+    const indicators = filteredCollection.map((_, index) => {
+        const activeClass = index === currentIndex ? 'active' : '';
+        return `<div class="indicator ${activeClass}" data-index="${index}"></div>`;
+    });
+    
+    container.innerHTML = indicators.join('');
+    
+    container.querySelectorAll('.indicator').forEach(indicator => {
+        indicator.addEventListener('click', () => {
+            goTo(parseInt(indicator.dataset.index));
+        });
+    });
+}
+
+function updateCount() {
+    const countEl = document.getElementById('collection-count');
+    if (filteredCollection.length === 0) {
+        countEl.textContent = '';
+    } else {
+        countEl.textContent = `${currentIndex + 1} / ${filteredCollection.length}`;
+    }
+}
+
+function goTo(index) {
+    if (filteredCollection.length === 0) return;
+    
+    currentIndex = (index + filteredCollection.length) % filteredCollection.length;
+    renderCarousel();
+    renderIndicators();
+    updateCount();
+}
+
+function prev() {
+    goTo(currentIndex - 1);
+}
+
+function next() {
+    goTo(currentIndex + 1);
 }
 
 function openModal(item) {
@@ -192,9 +279,12 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             currentCategory = btn.dataset.category;
-            renderCollection();
+            updateFilter();
         });
     });
+    
+    document.getElementById('prev-btn').addEventListener('click', prev);
+    document.getElementById('next-btn').addEventListener('click', next);
     
     document.querySelector('.close').addEventListener('click', closeModal);
     
@@ -207,6 +297,37 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             closeModal();
+        } else if (e.key === 'ArrowLeft') {
+            prev();
+        } else if (e.key === 'ArrowRight') {
+            next();
         }
     });
+    
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    const carouselContainer = document.querySelector('.carousel-container');
+    
+    carouselContainer.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+    
+    carouselContainer.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    });
+    
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = touchStartX - touchEndX;
+        
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+                next();
+            } else {
+                prev();
+            }
+        }
+    }
 });

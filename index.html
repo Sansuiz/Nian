@@ -16,25 +16,48 @@
 
     <nav class="filter-nav">
         <div class="container">
-            <button class="filter-btn active" data-category="all">
-                <span class="icon">🎯</span> 全部
-            </button>
-            <button class="filter-btn" data-category="blindbox">
-                <span class="icon">📦</span> 盲盒
-            </button>
-            <button class="filter-btn" data-category="diecast">
-                <span class="icon">🚗</span> 合金车
-            </button>
-            <button class="filter-btn" data-category="card">
-                <span class="icon">🎴</span> 卡片
-            </button>
+            <div class="filter-wrapper">
+                <button class="filter-btn active" data-category="all">
+                    <span class="icon">🎯</span>
+                    <span class="text">全部</span>
+                </button>
+                <button class="filter-btn" data-category="blindbox">
+                    <span class="icon">📦</span>
+                    <span class="text">盲盒</span>
+                </button>
+                <button class="filter-btn" data-category="diecast">
+                    <span class="icon">🚗</span>
+                    <span class="text">合金车</span>
+                </button>
+                <button class="filter-btn" data-category="card">
+                    <span class="icon">🎴</span>
+                    <span class="text">卡片</span>
+                </button>
+            </div>
         </div>
     </nav>
 
     <main class="main-content">
         <div class="container">
-            <div id="collection-grid" class="collection-grid">
+            <div class="carousel-container">
+                <button class="nav-btn prev-btn" id="prev-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                
+                <div class="carousel-track" id="carousel-track"></div>
+                
+                <button class="nav-btn next-btn" id="next-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
             </div>
+            
+            <div class="carousel-indicators" id="carousel-indicators"></div>
+            
+            <div class="collection-count" id="collection-count"></div>
         </div>
     </main>
 
