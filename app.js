@@ -17,13 +17,9 @@ const categoryLabels = {
 async function loadYAMLFile(filename) {
     try {
         const response = await fetch(`data/${filename}`);
-        if (!response.ok) {
-            console.warn(`File not found: ${filename}`);
-            return [];
-        }
+        if (!response.ok) return [];
         const text = await response.text();
-        const data = jsyaml.load(text);
-        return Array.isArray(data) ? data : [];
+        return jsyaml.load(text) || [];
     } catch (e) {
         console.error(`Error loading ${filename}:`, e);
         return [];
@@ -31,32 +27,27 @@ async function loadYAMLFile(filename) {
 }
 
 async function loadCollection() {
-    try {
-        const [blindboxes, diecast, cards] = await Promise.all([
-            loadYAMLFile('blindboxes.yml'),
-            loadYAMLFile('diecast.yml'),
-            loadYAMLFile('cards.yml')
-        ]);
-        
-        collection = [...blindboxes, ...diecast, ...cards];
-        console.log(`Loaded ${collection.length} items`);
-        renderCollection();
-    } catch (error) {
-        console.error('Failed to load collection:', error);
-    }
+    const [blindboxes, diecast, cards] = await Promise.all([
+        loadYAMLFile('blindboxes.yml'),
+        loadYAMLFile('diecast.yml'),
+        loadYAMLFile('cards.yml')
+    ]);
+    
+    collection = [...blindboxes, ...diecast, ...cards];
+    renderCollection();
 }
 
 function renderCollection() {
-    const grid = document.getElementById('grid');
+    const grid = document.getElementById('collection-grid');
     const filtered = currentCategory === 'all' 
         ? collection 
         : collection.filter(item => item.category === currentCategory);
     
     if (filtered.length === 0) {
         grid.innerHTML = `
-            <div style="grid-column: 1 / -1; text-align: center; padding: 80px 20px;">
-                <div style="font-size: 5rem; margin-bottom: 20px;">🎁</div>
-                <p style="color: var(--text-secondary); font-size: 1.2rem;">暂无此类藏品</p>
+            <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
+                <div style="font-size: 4rem; margin-bottom: 20px;">🎁</div>
+                <p style="color: var(--text-muted); font-size: 1.2rem;">暂无此类藏品</p>
             </div>
         `;
         return;
@@ -78,13 +69,13 @@ function createCard(item, index) {
         : `<div class="item-image">${item.image}</div>`;
     
     return `
-        <div class="item-card" style="animation-delay: ${index * 0.1}s;">
+        <div class="item-card" style="animation: fadeIn 0.5s ease ${index * 0.1}s forwards; opacity: 0;">
             ${imageContent}
-            <div class="item-body">
+            <div class="item-content">
                 <span class="item-category ${categoryClass}">${categoryLabels[item.category]}</span>
                 <h3 class="item-title">${item.title}</h3>
                 <p class="item-description">${item.description}</p>
-                <div class="item-footer">
+                <div class="item-meta">
                     <span class="item-date">${item.date}</span>
                     <span class="item-rarity ${rarityClass}">${rarityLabels[item.rarity]}</span>
                 </div>
@@ -95,7 +86,7 @@ function createCard(item, index) {
 
 function openModal(item) {
     const modal = document.getElementById('modal');
-    const modalContent = document.getElementById('modalContent');
+    const modalBody = document.getElementById('modal-body');
     
     const imageContent = item.imageUrl 
         ? `<img src="${item.imageUrl}" alt="${item.title}" class="modal-image">`
@@ -174,9 +165,9 @@ function openModal(item) {
         `;
     }
     
-    modalContent.innerHTML = `
+    modalBody.innerHTML = `
         ${imageContent}
-        <div class="modal-body">
+        <div class="modal-body-content">
             <h2 class="modal-title">${item.title}</h2>
             <p class="modal-description">${item.description}</p>
             <div class="modal-details">
@@ -196,19 +187,19 @@ function closeModal() {
 document.addEventListener('DOMContentLoaded', () => {
     loadCollection();
     
-    document.querySelectorAll('.category-btn').forEach(btn => {
+    document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             currentCategory = btn.dataset.category;
             renderCollection();
         });
     });
     
-    document.getElementById('modalClose').addEventListener('click', closeModal);
+    document.querySelector('.close').addEventListener('click', closeModal);
     
     document.getElementById('modal').addEventListener('click', (e) => {
-        if (e.target.classList.contains('modal-backdrop')) {
+        if (e.target.id === 'modal') {
             closeModal();
         }
     });

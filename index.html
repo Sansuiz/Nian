@@ -7,54 +7,49 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="background-gradient"></div>
-    
     <header class="header">
-        <div class="header-content">
+        <div class="container">
             <h1 class="logo">✨ Nian's Collection</h1>
-            <p class="tagline">我的藏品空间</p>
+            <p class="subtitle">探索我的数字盲盒展架</p>
         </div>
     </header>
 
-    <nav class="category-nav">
-        <button class="category-btn active" data-category="all">
-            <span class="icon">🎯</span>
-            <span class="label">全部</span>
-        </button>
-        <button class="category-btn" data-category="blindbox">
-            <span class="icon">📦</span>
-            <span class="label">盲盒</span>
-        </button>
-        <button class="category-btn" data-category="diecast">
-            <span class="icon">🚗</span>
-            <span class="label">合金车</span>
-        </button>
-        <button class="category-btn" data-category="card">
-            <span class="icon">🎴</span>
-            <span class="label">卡片</span>
-        </button>
+    <nav class="filter-nav">
+        <div class="container">
+            <button class="filter-btn active" data-category="all">
+                <span class="icon">🎯</span> 全部
+            </button>
+            <button class="filter-btn" data-category="blindbox">
+                <span class="icon">📦</span> 盲盒
+            </button>
+            <button class="filter-btn" data-category="diecast">
+                <span class="icon">🚗</span> 合金车
+            </button>
+            <button class="filter-btn" data-category="card">
+                <span class="icon">🎴</span> 卡片
+            </button>
+        </div>
     </nav>
 
-    <main class="main">
-        <div id="grid" class="masonry-grid">
+    <main class="main-content">
+        <div class="container">
+            <div id="collection-grid" class="collection-grid">
+            </div>
         </div>
     </main>
 
+    <footer class="footer">
+        <div class="container">
+            <p>Made with 💖 2026</p>
+        </div>
+    </footer>
+
     <div id="modal" class="modal">
-        <div class="modal-backdrop"></div>
-        <div class="modal-card">
-            <button class="modal-close" id="modalClose">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M18 6L6 18M6 6l12 12"/>
-                </svg>
-            </button>
-            <div id="modalContent" class="modal-content"></div>
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modal-body"></div>
         </div>
     </div>
-
-    <footer class="footer">
-        <p>Made with 💖 2026</p>
-    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
     <script src="app.js"></script>
