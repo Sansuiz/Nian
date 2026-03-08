@@ -95,7 +95,7 @@ function createCard(item, index) {
     }
     
     return `
-        <div class="item-card" style="animation: fadeIn 0.5s ease ${index * 0.1}s forwards; opacity: 0;">
+        <div class="item-card card-rarity-${item.rarity}" style="animation: fadeIn 0.5s ease ${index * 0.1}s forwards; opacity: 0;">
             <div class="item-rarity ${rarityClass}">
                 <span class="rarity-icon"></span>
                 <span class="rarity-text">${rarityLabels[item.rarity]}</span>

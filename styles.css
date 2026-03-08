@@ -270,7 +270,6 @@ body {
         0 35px 80px rgba(0, 0, 0, 0.5),
         0 0 0 1px rgba(99, 102, 241, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    border-color: var(--primary);
 }
 
 .item-card:hover::before {
@@ -279,6 +278,107 @@ body {
 
 .item-card:hover::after {
     opacity: 1;
+}
+
+.card-rarity-common:hover {
+    border-color: rgba(148, 163, 184, 0.7);
+    box-shadow: 
+        0 35px 80px rgba(0, 0, 0, 0.5),
+        0 0 25px rgba(148, 163, 184, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.card-rarity-common:hover::after {
+    background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.7), transparent);
+}
+
+.card-rarity-rare:hover {
+    border-color: rgba(59, 130, 246, 0.8);
+    box-shadow: 
+        0 35px 80px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(59, 130, 246, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.card-rarity-rare:hover::after {
+    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.8), transparent);
+}
+
+.card-rarity-epic:hover {
+    border-color: rgba(168, 85, 247, 0.8);
+    box-shadow: 
+        0 35px 80px rgba(0, 0, 0, 0.5),
+        0 0 35px rgba(168, 85, 247, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    animation: epicCardGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes epicCardGlow {
+    0%, 100% {
+        box-shadow: 
+            0 35px 80px rgba(0, 0, 0, 0.5),
+            0 0 35px rgba(168, 85, 247, 0.35),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+    50% {
+        box-shadow: 
+            0 35px 80px rgba(0, 0, 0, 0.5),
+            0 0 45px rgba(236, 72, 153, 0.45),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+}
+
+.card-rarity-epic:hover::after {
+    background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.8), rgba(236, 72, 153, 0.9), transparent);
+    animation: epicTopBarGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes epicTopBarGlow {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.card-rarity-legendary:hover {
+    border-color: rgba(245, 158, 11, 0.9);
+    box-shadow: 
+        0 35px 80px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(245, 158, 11, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    animation: legendaryCardGlow 2s ease-in-out infinite;
+}
+
+@keyframes legendaryCardGlow {
+    0%, 100% {
+        box-shadow: 
+            0 35px 80px rgba(0, 0, 0, 0.5),
+            0 0 40px rgba(245, 158, 11, 0.45),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+    50% {
+        box-shadow: 
+            0 35px 80px rgba(0, 0, 0, 0.5),
+            0 0 60px rgba(249, 115, 22, 0.6),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+}
+
+.card-rarity-legendary:hover::after {
+    background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.9), rgba(249, 115, 22, 1), rgba(234, 179, 8, 0.9), transparent);
+    height: 3px;
+    animation: legendaryTopBarRotate 3s linear infinite;
+}
+
+@keyframes legendaryTopBarRotate {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 200% 50%;
+    }
 }
 
 .item-image {
@@ -381,51 +481,51 @@ body {
 
 .item-rarity {
     position: absolute;
-    top: 15px;
-    right: 15px;
+    top: 12px;
+    right: 12px;
     z-index: 10;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
+    gap: 3px;
 }
 
 .rarity-icon {
-    width: 48px;
-    height: 48px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.4rem;
+    font-size: 1.15rem;
     position: relative;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(8px);
 }
 
 .rarity-icon::before {
     content: '';
     position: absolute;
-    inset: -3px;
+    inset: -2px;
     border-radius: 50%;
     background: inherit;
-    filter: blur(8px);
+    filter: blur(6px);
     opacity: 0.6;
     z-index: -1;
 }
 
 .rarity-text {
-    font-size: 0.68rem;
+    font-size: 0.6rem;
     font-weight: 800;
-    padding: 4px 10px;
+    padding: 3px 8px;
     border-radius: 20px;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
-    backdrop-filter: blur(10px);
+    letter-spacing: 0.6px;
+    backdrop-filter: blur(8px);
 }
 
 .item-card:hover .rarity-icon {
-    transform: scale(1.15) rotate(10deg);
+    transform: scale(1.12) rotate(8deg);
 }
 
 .rarity-common .rarity-icon {
