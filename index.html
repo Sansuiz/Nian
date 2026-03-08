@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="background-effects">
+        <div class="glow glow-1"></div>
+        <div class="glow glow-2"></div>
+        <div class="glow glow-3"></div>
+    </div>
+
     <header class="header">
         <div class="container">
             <h1 class="logo">✨ Nian's Collection</h1>
@@ -39,25 +45,12 @@
 
     <main class="main-content">
         <div class="container">
-            <div class="carousel-container">
-                <button class="nav-btn prev-btn" id="prev-btn">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                        <polyline points="15 18 9 12 15 6"></polyline>
-                    </svg>
-                </button>
-                
-                <div class="carousel-track" id="carousel-track"></div>
-                
-                <button class="nav-btn next-btn" id="next-btn">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                        <polyline points="9 18 15 12 9 6"></polyline>
-                    </svg>
-                </button>
+            <div id="collection-grid" class="collection-grid">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>加载中...</p>
+                </div>
             </div>
-            
-            <div class="carousel-indicators" id="carousel-indicators"></div>
-            
-            <div class="collection-count" id="collection-count"></div>
         </div>
     </main>
 
@@ -68,8 +61,9 @@
     </footer>
 
     <div id="modal" class="modal">
+        <div class="modal-backdrop"></div>
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <button class="modal-close">&times;</button>
             <div id="modal-body"></div>
         </div>
     </div>
