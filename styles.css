@@ -379,9 +379,196 @@ body {
     margin-bottom: 18px;
 }
 
+.item-rarity {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.rarity-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    backdrop-filter: blur(10px);
+}
+
+.rarity-icon::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: inherit;
+    filter: blur(8px);
+    opacity: 0.6;
+    z-index: -1;
+}
+
+.rarity-text {
+    font-size: 0.68rem;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    backdrop-filter: blur(10px);
+}
+
+.item-card:hover .rarity-icon {
+    transform: scale(1.15) rotate(10deg);
+}
+
+.rarity-common .rarity-icon {
+    background: radial-gradient(circle at 30% 30%, rgba(148, 163, 184, 0.4), rgba(51, 65, 85, 0.6));
+    border: 2px solid rgba(148, 163, 184, 0.5);
+    box-shadow: 0 4px 15px rgba(148, 163, 184, 0.2);
+}
+
+.rarity-common .rarity-icon::after {
+    content: '◆';
+    color: #94a3b8;
+    text-shadow: 0 0 10px rgba(148, 163, 184, 0.5);
+}
+
+.rarity-common .rarity-text {
+    background: rgba(148, 163, 184, 0.15);
+    color: #94a3b8;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.rarity-rare .rarity-icon {
+    background: radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.5), rgba(30, 64, 175, 0.7));
+    border: 2px solid rgba(59, 130, 246, 0.6);
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+}
+
+.rarity-rare .rarity-icon::after {
+    content: '✦';
+    color: #60a5fa;
+    text-shadow: 0 0 15px rgba(59, 130, 246, 0.7);
+}
+
+.rarity-rare .rarity-text {
+    background: rgba(59, 130, 246, 0.18);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.4);
+}
+
+.rarity-epic .rarity-icon {
+    background: radial-gradient(circle at 30% 30%, rgba(168, 85, 247, 0.5), rgba(236, 72, 153, 0.7));
+    border: 2px solid rgba(168, 85, 247, 0.6);
+    box-shadow: 0 4px 25px rgba(168, 85, 247, 0.4);
+    animation: epicPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes epicPulse {
+    0%, 100% {
+        box-shadow: 0 4px 25px rgba(168, 85, 247, 0.4);
+    }
+    50% {
+        box-shadow: 0 4px 35px rgba(236, 72, 153, 0.6);
+    }
+}
+
+.rarity-epic .rarity-icon::after {
+    content: '✧';
+    color: #e879f9;
+    text-shadow: 0 0 20px rgba(168, 85, 247, 0.8);
+    animation: epicSpin 8s linear infinite;
+}
+
+@keyframes epicSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.rarity-epic .rarity-text {
+    background: rgba(168, 85, 247, 0.2);
+    color: #e879f9;
+    border: 1px solid rgba(168, 85, 247, 0.5);
+}
+
+.rarity-legendary .rarity-icon {
+    background: conic-gradient(
+        from 0deg,
+        rgba(245, 158, 11, 0.3),
+        rgba(249, 115, 22, 0.5),
+        rgba(245, 158, 11, 0.3),
+        rgba(234, 179, 8, 0.5),
+        rgba(245, 158, 11, 0.3)
+    );
+    border: 2px solid rgba(245, 158, 11, 0.7);
+    box-shadow: 0 4px 30px rgba(245, 158, 11, 0.5);
+    animation: legendaryRotate 3s linear infinite;
+}
+
+@keyframes legendaryRotate {
+    from { 
+        transform: rotate(0deg);
+    }
+    to { 
+        transform: rotate(360deg);
+    }
+}
+
+.rarity-legendary .rarity-icon::before {
+    inset: -5px;
+    filter: blur(12px);
+    opacity: 0.8;
+    animation: legendaryGlow 2s ease-in-out infinite;
+}
+
+@keyframes legendaryGlow {
+    0%, 100% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+.rarity-legendary .rarity-icon::after {
+    content: '❖';
+    color: #fbbf24;
+    font-size: 1.6rem;
+    text-shadow: 0 0 25px rgba(245, 158, 11, 0.9), 0 0 40px rgba(249, 115, 22, 0.7);
+    animation: legendaryInnerRotate 3s linear infinite reverse;
+}
+
+@keyframes legendaryInnerRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(-360deg); }
+}
+
+.rarity-legendary .rarity-text {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(249, 115, 22, 0.3));
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.6);
+    animation: legendaryTextShine 2s ease-in-out infinite;
+}
+
+@keyframes legendaryTextShine {
+    0%, 100% {
+        text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+    }
+    50% {
+        text-shadow: 0 0 20px rgba(245, 158, 11, 0.8);
+    }
+}
+
 .item-meta {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     padding-top: 15px;
     border-top: 1px solid var(--border);
@@ -390,66 +577,6 @@ body {
 .item-date {
     font-size: 0.85rem;
     color: var(--text-muted);
-}
-
-.item-rarity {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.82rem;
-    font-weight: 700;
-    padding: 5px 10px;
-    border-radius: 8px;
-}
-
-.rarity-common {
-    background: rgba(148, 163, 184, 0.1);
-    color: #94a3b8;
-}
-
-.rarity-common::before {
-    content: '●';
-    font-size: 0.9em;
-}
-
-.rarity-rare {
-    background: rgba(59, 130, 246, 0.15);
-    color: #60a5fa;
-}
-
-.rarity-rare::before {
-    content: '★';
-    font-size: 0.9em;
-}
-
-.rarity-epic {
-    background: rgba(168, 85, 247, 0.18);
-    color: #a78bfa;
-}
-
-.rarity-epic::before {
-    content: '★★';
-    font-size: 0.85em;
-}
-
-.rarity-legendary {
-    background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(249, 115, 22, 0.25));
-    color: #fbbf24;
-    animation: legendaryShine 2s ease-in-out infinite;
-}
-
-.rarity-legendary::before {
-    content: '★★★';
-    font-size: 0.75em;
-}
-
-@keyframes legendaryShine {
-    0%, 100% {
-        filter: drop-shadow(0 0 5px rgba(245, 158, 11, 0.3));
-    }
-    50% {
-        filter: drop-shadow(0 0 15px rgba(245, 158, 11, 0.6));
-    }
 }
 
 @keyframes fadeIn {
