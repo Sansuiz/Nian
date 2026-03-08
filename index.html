@@ -7,79 +7,54 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="stars"></div>
-    <div class="stars2"></div>
-    <div class="stars3"></div>
-
-    <header class="hero">
-        <div class="hero-content">
-            <h1 class="title-float">✨ Nian's Collection</h1>
-            <p class="subtitle">探索我的数字盲盒宇宙</p>
+    <div class="background-gradient"></div>
+    
+    <header class="header">
+        <div class="header-content">
+            <h1 class="logo">✨ Nian's Collection</h1>
+            <p class="tagline">我的藏品空间</p>
         </div>
     </header>
 
-    <nav class="orbital-nav">
-        <div class="nav-center">
-            <div class="planet active" data-category="all">
-                <div class="planet-inner">
-                    <span class="planet-icon">🎯</span>
-                    <span class="planet-label">全部</span>
-                </div>
-            </div>
-        </div>
-        <div class="nav-orbit">
-            <div class="planet" data-category="blindbox" style="--angle: 0deg;">
-                <div class="planet-inner">
-                    <span class="planet-icon">📦</span>
-                    <span class="planet-label">盲盒</span>
-                </div>
-            </div>
-            <div class="planet" data-category="diecast" style="--angle: 90deg;">
-                <div class="planet-inner">
-                    <span class="planet-icon">🚗</span>
-                    <span class="planet-label">合金车</span>
-                </div>
-            </div>
-            <div class="planet" data-category="card" style="--angle: 180deg;">
-                <div class="planet-inner">
-                    <span class="planet-icon">🎴</span>
-                    <span class="planet-label">卡片</span>
-                </div>
-            </div>
-        </div>
+    <nav class="category-nav">
+        <button class="category-btn active" data-category="all">
+            <span class="icon">🎯</span>
+            <span class="label">全部</span>
+        </button>
+        <button class="category-btn" data-category="blindbox">
+            <span class="icon">📦</span>
+            <span class="label">盲盒</span>
+        </button>
+        <button class="category-btn" data-category="diecast">
+            <span class="icon">🚗</span>
+            <span class="label">合金车</span>
+        </button>
+        <button class="category-btn" data-category="card">
+            <span class="icon">🎴</span>
+            <span class="label">卡片</span>
+        </button>
     </nav>
 
-    <main class="gallery">
-        <div class="gallery-container">
-            <div id="collection-cards" class="cards-container">
-            </div>
-        </div>
-        
-        <div class="nav-arrows">
-            <button class="nav-btn prev-btn" id="prevBtn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M15 18l-6-6 6-6"/>
-                </svg>
-            </button>
-            <div class="page-indicator" id="pageIndicator"></div>
-            <button class="nav-btn next-btn" id="nextBtn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M9 18l6-6-6-6"/>
-                </svg>
-            </button>
+    <main class="main">
+        <div id="grid" class="masonry-grid">
         </div>
     </main>
 
     <div id="modal" class="modal">
-        <div class="modal-wrapper">
+        <div class="modal-backdrop"></div>
+        <div class="modal-card">
             <button class="modal-close" id="modalClose">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M18 6L6 18M6 6l12 12"/>
                 </svg>
             </button>
-            <div class="modal-content" id="modalContent"></div>
+            <div id="modalContent" class="modal-content"></div>
         </div>
     </div>
+
+    <footer class="footer">
+        <p>Made with 💖 2026</p>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
     <script src="app.js"></script>

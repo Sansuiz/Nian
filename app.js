@@ -1,7 +1,5 @@
 let collection = [];
 let currentCategory = 'all';
-let currentPage = 0;
-let cardsPerPage = 3;
 
 const rarityLabels = {
     common: '普通',
@@ -19,9 +17,13 @@ const categoryLabels = {
 async function loadYAMLFile(filename) {
     try {
         const response = await fetch(`data/${filename}`);
-        if (!response.ok) return [];
+        if (!response.ok) {
+            console.warn(`File not found: ${filename}`);
+            return [];
+        }
         const text = await response.text();
-        return jsyaml.load(text) || [];
+        const data = jsyaml.load(text);
+        return Array.isArray(data) ? data : [];
     } catch (e) {
         console.error(`Error loading ${filename}:`, e);
         return [];
@@ -29,58 +31,42 @@ async function loadYAMLFile(filename) {
 }
 
 async function loadCollection() {
-    const [blindboxes, diecast, cards] = await Promise.all([
-        loadYAMLFile('blindboxes.yml'),
-        loadYAMLFile('diecast.yml'),
-        loadYAMLFile('cards.yml')
-    ]);
-    
-    collection = [...blindboxes, ...diecast, ...cards];
-    currentPage = 0;
-    updateCardsPerPage();
-    renderCollection();
-}
-
-function updateCardsPerPage() {
-    const width = window.innerWidth;
-    if (width < 768) {
-        cardsPerPage = 1;
-    } else if (width < 1100) {
-        cardsPerPage = 2;
-    } else {
-        cardsPerPage = 3;
+    try {
+        const [blindboxes, diecast, cards] = await Promise.all([
+            loadYAMLFile('blindboxes.yml'),
+            loadYAMLFile('diecast.yml'),
+            loadYAMLFile('cards.yml')
+        ]);
+        
+        collection = [...blindboxes, ...diecast, ...cards];
+        console.log(`Loaded ${collection.length} items`);
+        renderCollection();
+    } catch (error) {
+        console.error('Failed to load collection:', error);
     }
 }
 
 function renderCollection() {
-    const container = document.getElementById('collection-cards');
+    const grid = document.getElementById('grid');
     const filtered = currentCategory === 'all' 
         ? collection 
         : collection.filter(item => item.category === currentCategory);
     
     if (filtered.length === 0) {
-        container.innerHTML = `
-            <div style="flex: 1; display: flex; align-items: center; justify-content: center; min-height: 400px;">
-                <div style="text-align: center;">
-                    <div style="font-size: 5rem; margin-bottom: 20px;">🎁</div>
-                    <p style="color: var(--text-muted); font-size: 1.3rem;">暂无此类藏品</p>
-                </div>
+        grid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 80px 20px;">
+                <div style="font-size: 5rem; margin-bottom: 20px;">🎁</div>
+                <p style="color: var(--text-secondary); font-size: 1.2rem;">暂无此类藏品</p>
             </div>
         `;
-        updatePageIndicator(filtered.length);
-        updateNavButtons(filtered.length);
         return;
     }
     
-    container.innerHTML = filtered.map((item, index) => createCard(item, index)).join('');
+    grid.innerHTML = filtered.map((item, index) => createCard(item, index)).join('');
     
-    document.querySelectorAll('.collection-card').forEach((card, index) => {
+    document.querySelectorAll('.item-card').forEach((card, index) => {
         card.addEventListener('click', () => openModal(filtered[index]));
     });
-    
-    updatePageIndicator(filtered.length);
-    updateNavButtons(filtered.length);
-    scrollToPage();
 }
 
 function createCard(item, index) {
@@ -88,74 +74,23 @@ function createCard(item, index) {
     const rarityClass = `rarity-${item.rarity}`;
     
     const imageContent = item.imageUrl 
-        ? `<img src="${item.imageUrl}" alt="${item.title}" class="card-image">`
-        : `<div class="card-image">${item.image}</div>`;
+        ? `<img src="${item.imageUrl}" alt="${item.title}" class="item-image">`
+        : `<div class="item-image">${item.image}</div>`;
     
     return `
-        <div class="collection-card" style="--delay: ${index * 0.1}s;">
-            <div class="card-face">
-                ${imageContent}
-                <div class="card-content">
-                    <span class="card-category ${categoryClass}">${categoryLabels[item.category]}</span>
-                    <h3 class="card-title">${item.title}</h3>
-                    <p class="card-description">${item.description}</p>
-                    <div class="card-footer">
-                        <span class="card-date">${item.date}</span>
-                        <span class="card-rarity ${rarityClass}">${rarityLabels[item.rarity]}</span>
-                    </div>
+        <div class="item-card" style="animation-delay: ${index * 0.1}s;">
+            ${imageContent}
+            <div class="item-body">
+                <span class="item-category ${categoryClass}">${categoryLabels[item.category]}</span>
+                <h3 class="item-title">${item.title}</h3>
+                <p class="item-description">${item.description}</p>
+                <div class="item-footer">
+                    <span class="item-date">${item.date}</span>
+                    <span class="item-rarity ${rarityClass}">${rarityLabels[item.rarity]}</span>
                 </div>
             </div>
         </div>
     `;
-}
-
-function updatePageIndicator(totalItems) {
-    const indicator = document.getElementById('pageIndicator');
-    const totalPages = Math.ceil(totalItems / cardsPerPage);
-    
-    if (totalPages <= 1) {
-        indicator.innerHTML = '';
-        return;
-    }
-    
-    let dots = '';
-    for (let i = 0; i < totalPages; i++) {
-        const activeClass = i === currentPage ? 'active' : '';
-        dots += `<div class="page-dot ${activeClass}" data-page="${i}"></div>`;
-    }
-    
-    indicator.innerHTML = dots;
-    
-    document.querySelectorAll('.page-dot').forEach(dot => {
-        dot.addEventListener('click', () => {
-            currentPage = parseInt(dot.dataset.page);
-            scrollToPage();
-            updatePageIndicator(totalItems);
-            updateNavButtons(totalItems);
-        });
-    });
-}
-
-function updateNavButtons(totalItems) {
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const totalPages = Math.ceil(totalItems / cardsPerPage);
-    
-    prevBtn.disabled = currentPage <= 0;
-    nextBtn.disabled = currentPage >= totalPages - 1;
-}
-
-function scrollToPage() {
-    const container = document.getElementById('collection-cards');
-    const cardWidth = 320 + 30; 
-    const offset = currentPage * cardWidth * cardsPerPage;
-    container.style.transform = `translateX(-${offset}px)`;
-    
-    const filtered = currentCategory === 'all' 
-        ? collection 
-        : collection.filter(item => item.category === currentCategory);
-    updatePageIndicator(filtered.length);
-    updateNavButtons(filtered.length);
 }
 
 function openModal(item) {
@@ -261,44 +196,19 @@ function closeModal() {
 document.addEventListener('DOMContentLoaded', () => {
     loadCollection();
     
-    document.querySelectorAll('.planet').forEach(planet => {
-        planet.addEventListener('click', () => {
-            document.querySelectorAll('.planet').forEach(p => p.classList.remove('active'));
-            planet.classList.add('active');
-            currentCategory = planet.dataset.category;
-            currentPage = 0;
+    document.querySelectorAll('.category-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentCategory = btn.dataset.category;
             renderCollection();
         });
-    });
-    
-    document.getElementById('prevBtn').addEventListener('click', () => {
-        const filtered = currentCategory === 'all' 
-            ? collection 
-            : collection.filter(item => item.category === currentCategory);
-        const totalPages = Math.ceil(filtered.length / cardsPerPage);
-        
-        if (currentPage > 0) {
-            currentPage--;
-            scrollToPage();
-        }
-    });
-    
-    document.getElementById('nextBtn').addEventListener('click', () => {
-        const filtered = currentCategory === 'all' 
-            ? collection 
-            : collection.filter(item => item.category === currentCategory);
-        const totalPages = Math.ceil(filtered.length / cardsPerPage);
-        
-        if (currentPage < totalPages - 1) {
-            currentPage++;
-            scrollToPage();
-        }
     });
     
     document.getElementById('modalClose').addEventListener('click', closeModal);
     
     document.getElementById('modal').addEventListener('click', (e) => {
-        if (e.target.id === 'modal') {
+        if (e.target.classList.contains('modal-backdrop')) {
             closeModal();
         }
     });
@@ -307,17 +217,5 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Escape') {
             closeModal();
         }
-        if (e.key === 'ArrowLeft') {
-            document.getElementById('prevBtn').click();
-        }
-        if (e.key === 'ArrowRight') {
-            document.getElementById('nextBtn').click();
-        }
-    });
-    
-    window.addEventListener('resize', () => {
-        updateCardsPerPage();
-        currentPage = 0;
-        renderCollection();
     });
 });
