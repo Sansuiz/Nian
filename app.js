@@ -116,11 +116,12 @@ function createCard(item, index) {
 
 function openModal(item) {
     const modal = document.getElementById('modal');
+    const modalWrapper = modal.querySelector('.modal-wrapper');
     const modalContent = document.getElementById('modal-content');
     const modalBody = document.getElementById('modal-body');
     
-    modalContent.className = 'modal-content';
-    modalContent.classList.add(`modal-${item.rarity}`);
+    modalWrapper.className = 'modal-wrapper';
+    modalWrapper.classList.add(`modal-${item.rarity}`);
     
     let imageHtml = '';
     if (item.imageUrl) {
@@ -176,17 +177,17 @@ function openModal(item) {
     `;
     
     modal.classList.add('show');
-    modalContent.classList.add('show-glow');
+    modalWrapper.classList.add('show-glow');
     
     modalMoveListener = (e) => handleModalMouseMove(e);
-    modalContent.addEventListener('mousemove', modalMoveListener);
+    modalWrapper.addEventListener('mousemove', modalMoveListener);
 }
 
 function handleModalMouseMove(e) {
-    const modalContent = document.getElementById('modal-content');
-    const glow = modalContent.querySelector('.modal-glow');
+    const modalWrapper = document.querySelector('.modal-wrapper');
+    const glow = modalWrapper.querySelector('.modal-glow');
     
-    const rect = modalContent.getBoundingClientRect();
+    const rect = modalWrapper.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     
@@ -205,10 +206,10 @@ function createDetailRow(label, value) {
 
 function closeModal() {
     const modal = document.getElementById('modal');
-    const modalContent = document.getElementById('modal-content');
+    const modalWrapper = modal.querySelector('.modal-wrapper');
     
     if (modalMoveListener) {
-        modalContent.removeEventListener('mousemove', modalMoveListener);
+        modalWrapper.removeEventListener('mousemove', modalMoveListener);
         modalMoveListener = null;
     }
     
