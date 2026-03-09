@@ -81,7 +81,47 @@ function renderCollection() {
         card.addEventListener('click', () => {
             openModal(filtered[index]);
         });
+        
+        card.addEventListener('mousemove', (e) => handleCardMouseMove(e, card));
+        card.addEventListener('mouseleave', () => handleCardMouseLeave(card));
+        card.addEventListener('mouseenter', () => handleCardMouseEnter(card));
     });
+}
+
+function handleCardMouseEnter(card) {
+    card.style.transition = 'transform 0.15s ease-out, box-shadow 0.4s ease, border-color 0.3s ease';
+}
+
+function handleCardMouseMove(e, card) {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = (y - centerY) / 10;
+    const rotateY = (centerX - x) / 10;
+    
+    const shine = card.querySelector('.card-shine');
+    if (shine) {
+        const shineX = (x / rect.width) * 100;
+        const shineY = (y / rect.height) * 100;
+        shine.style.setProperty('--shine-x', `${shineX}%`);
+        shine.style.setProperty('--shine-y', `${shineY + 20}%`);
+    }
+    
+    card.style.transform = `
+        perspective(1000px) 
+        rotateX(${rotateX}deg) 
+        rotateY(${rotateY}deg) 
+        translateZ(15px)
+        scale(1.02)
+    `;
+}
+
+function handleCardMouseLeave(card) {
+    card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0) scale(1)';
 }
 
 function createCard(item, index) {
@@ -97,6 +137,7 @@ function createCard(item, index) {
     
     return `
         <div class="item-card card-rarity-${item.rarity}" style="animation: fadeIn 0.5s ease ${index * 0.1}s forwards; opacity: 0;">
+            <div class="card-shine"></div>
             <div class="item-rarity ${rarityClass}">
                 <span class="rarity-icon"></span>
                 <span class="rarity-text">${rarityLabels[item.rarity]}</span>

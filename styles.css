@@ -189,6 +189,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 30px;
+    perspective: 1200px;
 }
 
 .loading {
@@ -232,9 +233,11 @@ body {
     border-radius: 28px;
     overflow: hidden;
     border: 1px solid rgba(51, 65, 85, 0.6);
-    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.15s ease-out, box-shadow 0.4s ease, border-color 0.3s ease;
     cursor: pointer;
     position: relative;
+    transform-style: preserve-3d;
+    transform: perspective(1000px);
 }
 
 .item-card::before {
@@ -264,8 +267,44 @@ body {
     z-index: 2;
 }
 
+.item-card::before,
+.item-card::after {
+    transform: translateZ(1px);
+}
+
+.item-card .card-shine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 3;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    transform: translateZ(2px);
+}
+
+.item-card .card-shine::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.1) var(--shine-x, 30%),
+        rgba(255, 255, 255, 0) var(--shine-y, 70%)
+    );
+}
+
+.item-card:hover .card-shine {
+    opacity: 1;
+}
+
 .item-card:hover {
-    transform: translateY(-12px) scale(1.02);
     box-shadow: 
         0 35px 80px rgba(0, 0, 0, 0.5),
         0 0 0 1px rgba(99, 102, 241, 0.2),
