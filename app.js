@@ -100,8 +100,8 @@ function handleCardMouseMove(e, card) {
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
     
-    const rotateX = (y - centerY) / 10;
-    const rotateY = (centerX - x) / 10;
+    const rotateX = (y - centerY) / 25;
+    const rotateY = (centerX - x) / 25;
     
     const shine = card.querySelector('.card-shine');
     if (shine) {
@@ -115,8 +115,8 @@ function handleCardMouseMove(e, card) {
         perspective(1000px) 
         rotateX(${rotateX}deg) 
         rotateY(${rotateY}deg) 
-        translateZ(15px)
-        scale(1.02)
+        translateZ(8px)
+        scale(1.01)
     `;
 }
 
