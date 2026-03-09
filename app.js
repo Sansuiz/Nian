@@ -127,6 +127,12 @@ function handleCardMouseLeave(card) {
 function createCard(item, index) {
     const categoryClass = `category-${item.category}`;
     const rarityClass = `rarity-${item.rarity}`;
+    const hasBackgroundClass = item.imageUrl ? 'has-background' : '';
+    
+    let backgroundStyle = '';
+    if (item.imageUrl) {
+        backgroundStyle = `background-image: url('${item.imageUrl}');`;
+    }
     
     let imageHtml = '';
     if (item.imageUrl) {
@@ -136,19 +142,22 @@ function createCard(item, index) {
     }
     
     return `
-        <div class="item-card card-rarity-${item.rarity}" style="animation: fadeIn 0.5s ease ${index * 0.1}s forwards; opacity: 0;">
+        <div class="item-card card-rarity-${item.rarity} ${hasBackgroundClass}" style="animation: fadeIn 0.5s ease ${index * 0.1}s forwards; opacity: 0;">
+            <div class="card-background" style="${backgroundStyle}"></div>
             <div class="card-shine"></div>
-            <div class="item-rarity ${rarityClass}">
-                <span class="rarity-icon"></span>
-                <span class="rarity-text">${rarityLabels[item.rarity]}</span>
-            </div>
-            ${imageHtml}
-            <div class="item-content">
-                <span class="item-category ${categoryClass}">${categoryLabels[item.category]}</span>
-                <h3 class="item-title">${item.title}</h3>
-                <p class="item-description">${item.description}</p>
-                <div class="item-meta">
-                    <span class="item-date">${item.date}</span>
+            <div class="card-content-overlay">
+                <div class="item-rarity ${rarityClass}">
+                    <span class="rarity-icon"></span>
+                    <span class="rarity-text">${rarityLabels[item.rarity]}</span>
+                </div>
+                ${imageHtml}
+                <div class="item-content">
+                    <span class="item-category ${categoryClass}">${categoryLabels[item.category]}</span>
+                    <h3 class="item-title">${item.title}</h3>
+                    <p class="item-description">${item.description}</p>
+                    <div class="item-meta">
+                        <span class="item-date">${item.date}</span>
+                    </div>
                 </div>
             </div>
         </div>
