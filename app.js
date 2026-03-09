@@ -1,5 +1,6 @@
 let collection = [];
 let currentCategory = 'all';
+let currentRarity = 'all';
 let modalMoveListener = null;
 
 const rarityLabels = {
@@ -60,10 +61,13 @@ function renderCollection() {
     
     let filtered = collection;
     if (currentCategory !== 'all') {
-        filtered = collection.filter(item => item.category === currentCategory);
+        filtered = filtered.filter(item => item.category === currentCategory);
+    }
+    if (currentRarity !== 'all') {
+        filtered = filtered.filter(item => item.rarity === currentRarity);
     }
     
-    console.log('Showing', filtered.length, 'items for category', currentCategory);
+    console.log('Showing', filtered.length, 'items for category', currentCategory, 'and rarity', currentRarity);
     
     if (filtered.length === 0) {
         grid.innerHTML = `
@@ -272,10 +276,20 @@ document.addEventListener('DOMContentLoaded', () => {
     
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentCategory = btn.dataset.category;
-            console.log('Category changed to:', currentCategory);
+            const type = btn.dataset.type;
+            
+            if (type === 'category') {
+                document.querySelectorAll('.category-filter .filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentCategory = btn.dataset.category;
+                console.log('Category changed to:', currentCategory);
+            } else if (type === 'rarity') {
+                document.querySelectorAll('.rarity-filter .filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentRarity = btn.dataset.rarity;
+                console.log('Rarity changed to:', currentRarity);
+            }
+            
             renderCollection();
         });
     });
