@@ -307,67 +307,187 @@ body {
     width: 100%;
     height: 100%;
     background-size: cover;
-    background-position: center top;
-    opacity: 1;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
     z-index: 0;
     transform: translateZ(0);
-    clip-path: inset(0 0 calc(100% - 240px) 0);
-    transition: clip-path 0.5s ease;
 }
 
 .item-card.has-background:hover .card-background {
-    clip-path: inset(0 0 0 0);
+    opacity: 1;
 }
 
 .item-card .card-content-overlay {
     position: relative;
     z-index: 1;
-    background: linear-gradient(
-        to bottom,
-        transparent 0%,
-        transparent 240px,
-        rgba(30, 41, 59, 1) 240px,
-        rgba(30, 41, 59, 1) 100%
-    );
-    transition: background 0.5s ease;
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(0px);
+    transition: background 0.4s ease, backdrop-filter 0.4s ease;
 }
 
 .item-card.has-background:hover .card-content-overlay {
-    background: linear-gradient(
-        to bottom,
-        rgba(15, 23, 42, 0.1) 0%,
-        rgba(15, 23, 42, 0.4) 40%,
-        rgba(15, 23, 42, 0.8) 100%
-    );
-    backdrop-filter: blur(1px);
+    background: rgba(15, 23, 42, 0.3);
+    backdrop-filter: blur(3px);
+}
+
+.item-card:hover .card-shine {
+    opacity: 1;
+}
+
+.item-card:hover {
+    box-shadow: 
+        0 35px 80px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(99, 102, 241, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.item-card:hover::before {
+    opacity: 1;
+}
+
+.item-card:hover::after {
+    opacity: 1;
+}
+
+.card-rarity-common:hover {
+    border-color: rgba(148, 163, 184, 0.7);
+    box-shadow: 
+        0 35px 80px rgba(0, 0, 0, 0.5),
+        0 0 25px rgba(148, 163, 184, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.card-rarity-common:hover::after {
+    background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.7), transparent);
+}
+
+.card-rarity-rare:hover {
+    border-color: rgba(59, 130, 246, 0.8);
+    box-shadow: 
+        0 35px 80px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(59, 130, 246, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.card-rarity-rare:hover::after {
+    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.8), transparent);
+}
+
+.card-rarity-epic:hover {
+    border-color: rgba(168, 85, 247, 0.8);
+    box-shadow: 
+        0 35px 80px rgba(0, 0, 0, 0.5),
+        0 0 35px rgba(168, 85, 247, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    animation: epicCardGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes epicCardGlow {
+    0%, 100% {
+        box-shadow: 
+            0 35px 80px rgba(0, 0, 0, 0.5),
+            0 0 35px rgba(168, 85, 247, 0.35),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+    50% {
+        box-shadow: 
+            0 35px 80px rgba(0, 0, 0, 0.5),
+            0 0 45px rgba(236, 72, 153, 0.45),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+}
+
+.card-rarity-epic:hover::after {
+    background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.8), rgba(236, 72, 153, 0.9), transparent);
+    animation: epicTopBarGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes epicTopBarGlow {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.card-rarity-legendary:hover {
+    border-color: rgba(245, 158, 11, 0.9);
+    box-shadow: 
+        0 35px 80px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(245, 158, 11, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    animation: legendaryCardGlow 2s ease-in-out infinite;
+}
+
+@keyframes legendaryCardGlow {
+    0%, 100% {
+        box-shadow: 
+            0 35px 80px rgba(0, 0, 0, 0.5),
+            0 0 40px rgba(245, 158, 11, 0.45),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+    50% {
+        box-shadow: 
+            0 35px 80px rgba(0, 0, 0, 0.5),
+            0 0 60px rgba(249, 115, 22, 0.6),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+}
+
+.card-rarity-legendary:hover::after {
+    background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.9), rgba(249, 115, 22, 1), rgba(234, 179, 8, 0.9), transparent);
+    height: 3px;
+    animation: legendaryTopBarRotate 3s linear infinite;
+}
+
+@keyframes legendaryTopBarRotate {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 200% 50%;
+    }
 }
 
 .item-image {
     width: 100%;
     height: 240px;
     object-fit: cover;
+    background: linear-gradient(145deg, #1e293b, #334155, #1e293b);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 6rem;
-    transition: opacity 0.3s ease;
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
-    overflow: hidden;
 }
 
-.item-card.has-background .item-image {
+.item-image::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(15, 23, 42, 0.8) 100%);
     opacity: 0;
+    transition: opacity 0.5s ease;
 }
 
-.item-card.has-background:hover .item-image {
-    opacity: 0;
+.item-card:hover .item-image {
+    transform: scale(1.08);
+}
+
+.item-card:hover .item-image::after {
+    opacity: 1;
 }
 
 .item-content {
     padding: 24px;
     position: relative;
     z-index: 3;
-    background: transparent;
 }
 
 .item-category {
