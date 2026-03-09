@@ -1,5 +1,6 @@
 let collection = [];
 let currentCategory = 'all';
+let modalMoveListener = null;
 
 const rarityLabels = {
     common: '普通',
@@ -115,7 +116,11 @@ function createCard(item, index) {
 
 function openModal(item) {
     const modal = document.getElementById('modal');
+    const modalContent = document.getElementById('modal-content');
     const modalBody = document.getElementById('modal-body');
+    
+    modalContent.className = 'modal-content';
+    modalContent.classList.add(`modal-${item.rarity}`);
     
     let imageHtml = '';
     if (item.imageUrl) {
@@ -171,6 +176,22 @@ function openModal(item) {
     `;
     
     modal.classList.add('show');
+    modalContent.classList.add('show-glow');
+    
+    modalMoveListener = (e) => handleModalMouseMove(e);
+    modalContent.addEventListener('mousemove', modalMoveListener);
+}
+
+function handleModalMouseMove(e) {
+    const modalContent = document.getElementById('modal-content');
+    const glow = modalContent.querySelector('.modal-glow');
+    
+    const rect = modalContent.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    glow.style.setProperty('--glow-x', `${x}px`);
+    glow.style.setProperty('--glow-y', `${y}px`);
 }
 
 function createDetailRow(label, value) {
@@ -184,6 +205,13 @@ function createDetailRow(label, value) {
 
 function closeModal() {
     const modal = document.getElementById('modal');
+    const modalContent = document.getElementById('modal-content');
+    
+    if (modalMoveListener) {
+        modalContent.removeEventListener('mousemove', modalMoveListener);
+        modalMoveListener = null;
+    }
+    
     modal.classList.remove('show');
 }
 
