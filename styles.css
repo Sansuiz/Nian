@@ -327,17 +327,8 @@ body {
 }
 
 .item-card.has-background:hover .card-content-overlay {
-    background: rgba(15, 23, 42, 0.25);
-    backdrop-filter: blur(2px);
-}
-
-.item-card.has-background:hover .card-content-overlay .item-image {
-    opacity: 0;
-    transition: opacity 0.4s ease;
-}
-
-.item-card .card-content-overlay .item-image {
-    transition: opacity 0.4s ease;
+    background: rgba(15, 23, 42, 0.3);
+    backdrop-filter: blur(3px);
 }
 
 .item-card:hover .card-shine {
@@ -497,13 +488,6 @@ body {
     padding: 24px;
     position: relative;
     z-index: 3;
-}
-
-.item-card.has-background:hover .item-content {
-    background: linear-gradient(180deg, 
-        rgba(15, 23, 42, 0) 0%, 
-        rgba(15, 23, 42, 0.6) 20%,
-        rgba(15, 23, 42, 0.7) 100%);
 }
 
 .item-category {
